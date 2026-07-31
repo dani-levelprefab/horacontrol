@@ -6,7 +6,7 @@ from models import db, init_db
 from routes import conductores_bp, horas_bp, banco_horas_bp
 from utils.auth import verify_credentials, get_token
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 app.config.from_object(Config)
 CORS(app)
 
@@ -36,6 +36,11 @@ def login():
             'success': False,
             'message': 'Usuario o contraseña incorrectos'
         }), 401
+
+# Servir archivos estáticos (logo.png, etc)
+@app.route('/logo.png')
+def serve_logo():
+    return send_from_directory('.', 'logo.png')
 
 # Servir index.html
 @app.route('/')
