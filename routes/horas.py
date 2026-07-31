@@ -1,12 +1,10 @@
 from flask import Blueprint, request, jsonify
-from datetime import datetime
 from models import db, RegistroHoras
 from utils.calculos import calcular_horas_trabajadas
 from utils.alertas import actualizar_banco_horas
 
 horas_bp = Blueprint('horas', __name__)
 
-# GET all registros
 @horas_bp.route('/api/horas', methods=['GET'])
 def get_registros():
     fecha = request.args.get('fecha')
@@ -31,7 +29,6 @@ def get_registros():
         'notas': r.notas
     } for r in registros])
 
-# POST new registro
 @horas_bp.route('/api/horas', methods=['POST'])
 def create_registro():
     data = request.get_json()
@@ -71,22 +68,6 @@ def create_registro():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-# GET registros by conductor
-@horas_bp.route('/api/horas/conductor/<int:conductor_id>', methods=['GET'])
-def get_registros_conductor(conductor_id):
-    registros = RegistroHoras.query.filter_by(conductor_id=conductor_id).all()
-    
-    return jsonify([{
-        'id': r.id,
-        'conductor_id': r.conductor_id,
-        'fecha': str(r.fecha),
-        'hora_entrada': r.hora_entrada,
-        'hora_salida': r.hora_salida,
-        'total_horas': r.total_horas,
-        'notas': r.notas
-    } for r in registros])
-
-# PUT update registro
 @horas_bp.route('/api/horas/<int:registro_id>', methods=['PUT'])
 def update_registro(registro_id):
     registro = RegistroHoras.query.get(registro_id)
@@ -106,8 +87,6 @@ def update_registro(registro_id):
             registro.notas = data['notas']
         
         db.session.commit()
-        
-        # Actualizar banco de horas
         actualizar_banco_horas(registro.conductor_id)
         
         return jsonify({
@@ -123,7 +102,6 @@ def update_registro(registro_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-# DELETE registro
 @horas_bp.route('/api/horas/<int:registro_id>', methods=['DELETE'])
 def delete_registro(registro_id):
     registro = RegistroHoras.query.get(registro_id)
@@ -136,8 +114,6 @@ def delete_registro(registro_id):
     try:
         db.session.delete(registro)
         db.session.commit()
-        
-        # Actualizar banco de horas
         actualizar_banco_horas(conductor_id)
         
         return jsonify({'message': 'Registro deleted'}), 200

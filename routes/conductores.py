@@ -3,7 +3,6 @@ from models import db, Conductor
 
 conductores_bp = Blueprint('conductores', __name__)
 
-# GET all conductores
 @conductores_bp.route('/api/conductores', methods=['GET'])
 def get_conductores():
     activo = request.args.get('activo')
@@ -21,7 +20,6 @@ def get_conductores():
         'activo': c.activo
     } for c in conductores])
 
-# POST new conductor
 @conductores_bp.route('/api/conductores', methods=['POST'])
 def create_conductor():
     data = request.get_json()
@@ -48,7 +46,6 @@ def create_conductor():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-# GET single conductor
 @conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['GET'])
 def get_conductor(conductor_id):
     conductor = Conductor.query.get(conductor_id)
@@ -63,7 +60,6 @@ def get_conductor(conductor_id):
         'activo': conductor.activo
     })
 
-# PUT update conductor
 @conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['PUT'])
 def update_conductor(conductor_id):
     conductor = Conductor.query.get(conductor_id)
@@ -93,7 +89,6 @@ def update_conductor(conductor_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-# DELETE conductor
 @conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['DELETE'])
 def delete_conductor(conductor_id):
     conductor = Conductor.query.get(conductor_id)

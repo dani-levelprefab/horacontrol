@@ -4,6 +4,7 @@ from flask_cors import CORS
 from config import Config
 from models import db
 
+# Crear aplicación
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.config.from_object(Config)
 CORS(app)
@@ -11,7 +12,7 @@ CORS(app)
 # Inicializar BD
 db.init_app(app)
 
-# Ruta de login (sin protección)
+# ===== RUTAS DE LOGIN =====
 @app.route('/api/login', methods=['POST'])
 def login():
     from utils.auth import verify_credentials
@@ -32,7 +33,7 @@ def login():
             'message': 'Usuario o contraseña incorrectos'
         }), 401
 
-# Importar y registrar blueprints DESPUÉS de crear app
+# ===== REGISTRAR BLUEPRINTS =====
 from routes.conductores import conductores_bp
 from routes.horas import horas_bp
 from routes.banco_horas import banco_horas_bp
@@ -41,17 +42,26 @@ app.register_blueprint(conductores_bp)
 app.register_blueprint(horas_bp)
 app.register_blueprint(banco_horas_bp)
 
-# Servir archivos estáticos
+# ===== SERVIR ARCHIVOS ESTÁTICOS =====
 @app.route('/logo.png')
 def serve_logo():
     return send_from_directory('.', 'logo.png')
 
-# Servir index.html
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
 
-# Crear tablas si no existen
+# ===== ERROR HANDLERS =====
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Ruta no encontrada'}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return jsonify({'error': 'Error interno del servidor'}), 500
+
+# ===== CREAR TABLAS =====
 with app.app_context():
     db.create_all()
 

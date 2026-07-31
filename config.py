@@ -1,19 +1,14 @@
 import os
 
 class Config:
-    """Configuración de la app"""
+    """Configuración base para Flask"""
     
-    # BD SQLite
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+    # Base de datos SQLite
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///database.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-    # Emails alertas (provisional)
-    ALERT_EMAILS = [
-        'gustavo@levelprefabricados.es',
-        'dani@levelprefabricados.es'
-    ]
+    # Flask
+    JSON_SORT_KEYS = False
     
-    # Límites
-    HORAS_JORNADA_BASE = 8
-    HORAS_COMPENSACION = 8  # Cuando acumula 8h extra → alerta descanso
-    HORAS_DEFICIT = 2        # Cuando falta 2h → alerta compensar
+    # CORS
+    CORS_HEADERS = 'Content-Type'
