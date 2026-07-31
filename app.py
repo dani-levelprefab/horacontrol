@@ -1,10 +1,19 @@
 import os
+import sys
 from flask import Flask, send_from_directory, jsonify, request
 from flask_cors import CORS
 from config import Config
 from models import db
 
-# Crear aplicación
+# ===== ELIMINAR BD ANTIGUA SI EXISTE =====
+if os.path.exists('database.db'):
+    try:
+        os.remove('database.db')
+        print("✅ BD anterior eliminada - esquema será recreado")
+    except Exception as e:
+        print(f"⚠️ No se pudo eliminar BD anterior: {e}")
+
+# ===== CREAR APLICACIÓN =====
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.config.from_object(Config)
 CORS(app)
