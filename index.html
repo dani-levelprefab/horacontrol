@@ -27,6 +27,122 @@
             margin: 0 auto;
         }
 
+        /* ===== LOGIN STYLES ===== */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #053d47 0%, #076f72 50%, #319ea5 100%);
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 16px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #076f72, #319ea5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #053d47;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #076f72;
+            margin-bottom: 40px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-input {
+            padding: 15px;
+            border: 2px solid #68c7bf;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #319ea5;
+            box-shadow: 0 0 10px rgba(49, 158, 165, 0.2);
+        }
+
+        .login-input::placeholder {
+            color: #a0a0a0;
+        }
+
+        .login-btn {
+            padding: 15px;
+            background: linear-gradient(135deg, #076f72, #319ea5);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(49, 158, 165, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-error {
+            color: #d32f2f;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+            background: #ffebee;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #d32f2f;
+        }
+
+        /* ===== MAIN APP STYLES ===== */
         .header {
             background: linear-gradient(135deg, #076f72 0%, #319ea5 100%);
             border-radius: 12px;
@@ -36,6 +152,7 @@
             display: flex;
             align-items: center;
             gap: 25px;
+            justify-content: space-between;
         }
 
         .header-logo {
@@ -56,288 +173,177 @@
             object-fit: contain;
         }
 
-        .header-content h1 {
-            color: #fdfefe;
-            margin-bottom: 8px;
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+        .header-content {
+            flex: 1;
         }
 
-        .header-content p {
-            color: rgba(253, 254, 254, 0.85);
+        .header-title {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
-            font-weight: 500;
+        }
+
+        .header-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .header-logout:hover {
+            background: white;
+            color: #076f72;
         }
 
         .tabs {
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
-            border-bottom: 2px solid rgba(253, 254, 254, 0.2);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 0;
         }
 
-        .tab-btn {
-            background: transparent;
-            color: rgba(253, 254, 254, 0.7);
-            border: none;
+        .tab {
             padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
-            border-bottom: 3px solid transparent;
         }
 
-        .tab-btn.active {
-            color: #fdfefe;
-            border-bottom-color: #319ea5;
+        .tab.active {
+            background: linear-gradient(135deg, #076f72, #319ea5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .tab-btn:hover {
-            color: #fdfefe;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
-        .card {
-            background: linear-gradient(135deg, #fdfefe 0%, rgba(253, 254, 254, 0.98) 100%);
-            border-radius: 12px;
-            padding: 28px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #319ea5;
-        }
-
-        .card h2 {
-            color: #053d47;
-            margin-bottom: 22px;
-            font-size: 20px;
+        .section-title {
+            font-size: 22px;
             font-weight: 700;
+            color: #053d47;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: #076f72;
+        .form-group.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-input label {
             font-weight: 600;
+            color: #053d47;
+            margin-bottom: 8px;
             font-size: 14px;
-            letter-spacing: 0.3px;
         }
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 11px 14px;
+        .form-input input,
+        .form-input select,
+        .form-input textarea {
+            padding: 12px;
             border: 2px solid #68c7bf;
             border-radius: 8px;
             font-size: 14px;
             font-family: 'Montserrat', sans-serif;
-            transition: all 0.3s;
-            background: #fdfefe;
+            transition: all 0.3s ease;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-input input:focus,
+        .form-input select:focus,
+        .form-input textarea:focus {
             outline: none;
-            border-color: #076f72;
-            box-shadow: 0 0 0 4px rgba(7, 111, 114, 0.1);
+            border-color: #319ea5;
+            box-shadow: 0 0 10px rgba(49, 158, 165, 0.2);
+        }
+
+        .form-input textarea {
+            resize: vertical;
+            min-height: 80px;
         }
 
         .btn {
-            background: linear-gradient(135deg, #076f72 0%, #319ea5 100%);
-            color: #fdfefe;
-            border: none;
             padding: 12px 24px;
+            background: linear-gradient(135deg, #076f72, #319ea5);
+            color: white;
+            border: none;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
             cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 12px rgba(7, 111, 114, 0.3);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(7, 111, 114, 0.4);
+            box-shadow: 0 8px 16px rgba(49, 158, 165, 0.3);
         }
 
-        .btn-sm {
-            width: auto;
-            padding: 8px 16px;
-            font-size: 12px;
-            margin-right: 5px;
+        .btn-secondary {
+            background: #68c7bf;
+        }
+
+        .btn-secondary:hover {
+            background: #5ab5ad;
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            background: #d32f2f;
         }
 
-        .btn-warning {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        .btn-danger:hover {
+            background: #b71c1c;
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: #388e3c;
         }
 
-        .dashboard {
-            background: linear-gradient(135deg, #fdfefe 0%, rgba(253, 254, 254, 0.98) 100%);
-            border-radius: 12px;
-            padding: 28px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            grid-column: 1 / -1;
-            border-top: 4px solid #319ea5;
+        .btn-success:hover {
+            background: #2e7d32;
         }
 
-        .dashboard h2 {
-            color: #053d47;
-            margin-bottom: 22px;
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        table thead {
-            background: linear-gradient(135deg, #076f72 0%, #319ea5 100%);
-        }
-
-        table th {
-            padding: 14px;
-            text-align: left;
-            font-weight: 700;
-            color: #fdfefe;
-            border-bottom: 2px solid #053d47;
-        }
-
-        table td {
-            padding: 14px;
-            border-bottom: 1px solid #e0e7ff;
-            color: #333;
-        }
-
-        table tr:hover {
-            background: rgba(99, 199, 191, 0.08);
-        }
-
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-size: 14px;
-            font-weight: 500;
-            border-left: 4px solid #333;
-            background: #f5f5f5;
-            color: #000;
-        }
-
-        .accordion {
-            margin-bottom: 15px;
-            border: 1px solid #e0e7ff;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .accordion-header {
-            background: linear-gradient(135deg, #076f72 0%, #319ea5 100%);
-            color: white;
-            padding: 15px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-        }
-
-        .accordion-header:hover {
-            background: linear-gradient(135deg, #053d47 0%, #076f72 100%);
-        }
-
-        .accordion-content {
-            display: none;
-            padding: 20px;
-            background: #fdfefe;
-        }
-
-        .accordion-content.active {
-            display: block;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #fdfefe 0%, rgba(253, 254, 254, 0.98) 100%);
-            border-radius: 12px;
-            padding: 32px;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            border-top: 4px solid #319ea5;
-        }
-
-        .modal-content h3 {
-            margin-bottom: 22px;
-            color: #053d47;
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .modal-close {
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            color: #999;
-            cursor: pointer;
-        }
-
-        .modal-close:hover {
-            color: #076f72;
-        }
-
-        .stats-grid {
+        .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
@@ -345,25 +351,117 @@
         }
 
         .stat-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            border-left: 4px solid #319ea5;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #076f72 0%, #319ea5 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .stat-card h4 {
-            color: #076f72;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .stat-card .value {
-            color: #053d47;
-            font-size: 28px;
+        .stat-number {
+            font-size: 32px;
             font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th {
+            background: linear-gradient(135deg, #076f72, #319ea5);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        .table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            color: #1565c0;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            color: #2e7d32;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            color: #e65100;
+        }
+
+        .alert-error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            color: #c62828;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            margin-top: -10px;
+        }
+
+        .modal-close:hover {
+            color: #000;
         }
 
         .chart-container {
@@ -372,214 +470,323 @@
             margin-bottom: 30px;
         }
 
-        .search-bar {
-            display: flex;
-            gap: 10px;
+        .error {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .filter-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
             margin-bottom: 20px;
         }
 
-        .search-bar input,
-        .search-bar select {
-            flex: 1;
-            padding: 10px 14px;
-            border: 2px solid #68c7bf;
+        .accordion {
+            border: 1px solid #ddd;
             border-radius: 8px;
-            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            margin-bottom: 10px;
         }
 
-        .two-cols {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .accordion-header {
+            background: linear-gradient(135deg, #f5f5f5, #fff);
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #053d47;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, #e8f5e9, #f5f5f5);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 15px;
+            background: #fafafa;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 12px;
         }
 
         @media (max-width: 768px) {
-            .container {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-group {
                 grid-template-columns: 1fr;
             }
 
-            .two-cols {
-                grid-template-columns: 1fr;
+            .table {
+                font-size: 12px;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .table th,
+            .table td {
+                padding: 8px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .header-title {
+                font-size: 24px;
             }
         }
     </style>
 </head>
 <body>
     <div id="app">
-        <!-- HEADER -->
-        <div class="header">
-            <div class="header-logo">
-                <img src="logo.png" alt="Level Prefabricados Logo">
-            </div>
-            <div class="header-content">
-                <h1>HoraControl</h1>
-                <p>Gestión inteligente de horas y compensación de descanso | Level Prefabricados 2009 SL</p>
+        <!-- LOGIN SCREEN -->
+        <div v-if="!isLoggedIn" class="login-container">
+            <div class="login-box">
+                <div class="login-logo">
+                    <img src="logo.png" alt="Level Prefabricados" style="max-width: 100%;">
+                </div>
+                <h1 class="login-title">HoraControl</h1>
+                <p class="login-subtitle">Gestión de Horas Conductores</p>
+                
+                <form @submit.prevent="handleLogin" class="login-form">
+                    <input 
+                        v-model="loginForm.username"
+                        type="text"
+                        placeholder="Usuario"
+                        class="login-input"
+                        required
+                    >
+                    <input 
+                        v-model="loginForm.password"
+                        type="password"
+                        placeholder="Contraseña"
+                        class="login-input"
+                        required
+                    >
+                    <button type="submit" class="login-btn" :disabled="loginLoading">
+                        {{ loginLoading ? 'Iniciando...' : 'Iniciar Sesión' }}
+                    </button>
+                </form>
+                
+                <div v-if="loginError" class="login-error">
+                    {{ loginError }}
+                </div>
             </div>
         </div>
 
-        <!-- PESTAÑAS -->
-        <div class="tabs">
-            <button class="tab-btn" :class="{active: tabActiva === 'dashboard'}" @click="tabActiva = 'dashboard'">
-                📊 Dashboard
-            </button>
-            <button class="tab-btn" :class="{active: tabActiva === 'historial'}" @click="tabActiva = 'historial'">
-                📋 Historial
-            </button>
-        </div>
-
-        <!-- TAB DASHBOARD -->
-        <div class="tab-content" :class="{active: tabActiva === 'dashboard'}">
-            <!-- ALERTAS (sin color, solo negro) -->
-            <div v-if="alertas.length > 0">
-                <div v-for="alerta in alertas" :key="alerta.conductor_id" class="alert">
-                    <strong>{{ alerta.conductor_nombre }}:</strong> {{ alerta.mensaje }}
+        <!-- MAIN APP -->
+        <div v-if="isLoggedIn">
+            <div class="header">
+                <div class="header-logo">
+                    <img src="logo.png" alt="Level Prefabricados">
                 </div>
+                <div class="header-content">
+                    <h1 class="header-title">HoraControl</h1>
+                    <p class="header-subtitle">Gestión de Horas Compensatorias</p>
+                </div>
+                <button @click="handleLogout" class="header-logout">🚪 Cerrar Sesión</button>
             </div>
 
-            <!-- FORMULARIOS -->
-            <div class="container">
-                <!-- CREAR CONDUCTOR -->
-                <div class="card">
-                    <h2>➕ Nuevo Conductor</h2>
-                    <div class="form-group">
-                        <label>Nombre Completo</label>
-                        <input v-model="nuevoConductor.nombre" type="text" placeholder="Ej: Juan Pérez García">
-                    </div>
-                    <button class="btn" @click="crearConductor">Crear Conductor</button>
+            <div class="tabs">
+                <button 
+                    @click="activeTab = 'dashboard'" 
+                    :class="['tab', { active: activeTab === 'dashboard' }]"
+                >
+                    📊 Dashboard
+                </button>
+                <button 
+                    @click="activeTab = 'historial'" 
+                    :class="['tab', { active: activeTab === 'historial' }]"
+                >
+                    📋 Historial
+                </button>
+            </div>
+
+            <!-- DASHBOARD TAB -->
+            <div v-if="activeTab === 'dashboard'" class="container">
+                <h2 class="section-title">⚠️ Alertas Activas</h2>
+                <div v-if="alerts.length === 0" class="alert alert-success">
+                    ✅ No hay alertas activas
+                </div>
+                <div v-for="alert in alerts" :key="alert.id" class="alert" :class="'alert-' + alert.type">
+                    {{ alert.message }}
                 </div>
 
-                <!-- REGISTRAR HORAS -->
-                <div class="card">
-                    <h2>⏰ Registrar Horas</h2>
-                    <div class="form-group">
-                        <label>Conductor</label>
-                        <select v-model="nuevoRegistro.conductor_id">
-                            <option value="">-- Selecciona --</option>
-                            <option v-for="c in conductores" :key="c.id" :value="c.id">{{ c.nombre }}</option>
+                <h2 class="section-title">➕ Registrar Nueva Hora</h2>
+                <div class="form-group">
+                    <div class="form-input">
+                        <label>Conductor *</label>
+                        <select v-model="newRecord.conductor_id">
+                            <option value="">Seleccionar conductor...</option>
+                            <option v-for="c in activeConductores" :key="c.id" :value="c.id">
+                                {{ c.nombre }}
+                            </option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Fecha</label>
-                        <input v-model="nuevoRegistro.fecha" type="date">
+                    <div class="form-input">
+                        <label>Fecha *</label>
+                        <input v-model="newRecord.fecha" type="date">
                     </div>
-                    <div class="two-cols">
-                        <div class="form-group">
-                            <label>Hora Entrada</label>
-                            <input v-model="nuevoRegistro.hora_entrada" type="time">
-                        </div>
-                        <div class="form-group">
-                            <label>Hora Salida</label>
-                            <input v-model="nuevoRegistro.hora_salida" type="time">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Notas</label>
-                        <input v-model="nuevoRegistro.notas" type="text" placeholder="Observaciones">
-                    </div>
-                    <button class="btn" @click="registrarHoras">Registrar Horas</button>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="form-input">
+                        <label>Hora Entrada (HH:MM) *</label>
+                        <input v-model="newRecord.hora_entrada" type="time">
+                    </div>
+                    <div class="form-input">
+                        <label>Hora Salida (HH:MM) *</label>
+                        <input v-model="newRecord.hora_salida" type="time">
+                    </div>
+                </div>
+                <div class="form-group full">
+                    <div class="form-input">
+                        <label>Notas (opcional)</label>
+                        <textarea v-model="newRecord.notas" placeholder="Observaciones..."></textarea>
+                    </div>
+                </div>
+                <button @click="addRecord" class="btn">📝 Registrar Hora</button>
 
-            <!-- ESTADÍSTICAS -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h4>Total Conductores Activos</h4>
-                    <div class="value">{{ conductores.length }}</div>
+                <h2 class="section-title" style="margin-top: 40px;">👥 Crear Nuevo Conductor</h2>
+                <div class="form-group">
+                    <div class="form-input">
+                        <label>Nombre del Conductor *</label>
+                        <input v-model="newConductor.nombre" type="text" placeholder="Nombre completo">
+                    </div>
+                    <div class="form-input">
+                        <label>Email (opcional)</label>
+                        <input v-model="newConductor.email" type="email" placeholder="Email">
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>Con Horas Pendientes</h4>
-                    <div class="value">{{ conductoresConDeficit }}</div>
-                </div>
-                <div class="stat-card">
-                    <h4>Con Descanso Disponible</h4>
-                    <div class="value">{{ conductoresConDescanso }}</div>
-                </div>
-                <div class="stat-card">
-                    <h4>Balance Total</h4>
-                    <div class="value">{{ balanceTotal.toFixed(2) }}h</div>
-                </div>
-            </div>
+                <button @click="addConductor" class="btn">➕ Crear Conductor</button>
 
-            <!-- GRÁFICO -->
-            <div class="dashboard">
-                <h2>📈 Balance de Horas por Conductor</h2>
+                <h2 class="section-title" style="margin-top: 40px;">📊 Estadísticas</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">{{ totalConductores }}</div>
+                        <div class="stat-label">Total Conductores</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ conductoresConDeficit }}</div>
+                        <div class="stat-label">Con Déficit</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ conductoresConDescanso }}</div>
+                        <div class="stat-label">Con Descanso Disponible</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ balanceTotal.toFixed(1) }}h</div>
+                        <div class="stat-label">Balance Total</div>
+                    </div>
+                </div>
+
                 <div class="chart-container">
-                    <canvas id="chartBalances"></canvas>
+                    <canvas id="balanceChart"></canvas>
                 </div>
-            </div>
 
-            <!-- TABLA DASHBOARD -->
-            <div class="dashboard">
-                <h2>📊 Estado General de Conductores</h2>
-                <table v-if="conductores.length > 0">
+                <h2 class="section-title">📈 Estado General</h2>
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Conductor</th>
-                            <th>Balance</th>
-                            <th>Detalles</th>
-                            <th>Acciones</th>
+                            <th>Horas Hoy</th>
+                            <th>Acum. Semana</th>
+                            <th>Banco Horas</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="conductor in conductores" :key="conductor.id">
-                            <td><strong>{{ conductor.nombre }}</strong></td>
-                            <td style="font-weight: 700; color: #319ea5;">
-                                {{ getBancoHoras(conductor.id) > 0 ? '+' : '' }}{{ getBancoHoras(conductor.id).toFixed(2) }}h
-                            </td>
-                            <td>{{ getTextoBalance(getBancoHoras(conductor.id)) }}</td>
+                        <tr v-for="c in activeConductores" :key="c.id">
+                            <td><strong>{{ c.nombre }}</strong></td>
+                            <td>{{ getTodayHours(c.id) }}h</td>
+                            <td>{{ getWeekHours(c.id) }}h</td>
+                            <td><strong>{{ getBalance(c.id) > 0 ? '+' : '' }}{{ getBalance(c.id).toFixed(1) }}h</strong></td>
+                            <td>{{ getStatusText(getBalance(c.id)) }}</td>
                             <td>
-                                <button v-if="getBancoHoras(conductor.id) >= 8" class="btn btn-sm btn-success" @click="abrirModalCompensarDia(conductor.id)">
-                                    📅 Compensar
-                                </button>
-                                <button class="btn btn-sm btn-warning" @click="darDeBaja(conductor.id)">
-                                    📉 Baja
-                                </button>
+                                <div class="action-buttons">
+                                    <button 
+                                        v-if="getBalance(c.id) >= 8"
+                                        @click="showCompensarModal(c)"
+                                        class="btn btn-success btn-small"
+                                    >
+                                        📅 Compensar
+                                    </button>
+                                    <button 
+                                        @click="showBajaModal(c)"
+                                        class="btn btn-danger btn-small"
+                                    >
+                                        📉 Baja
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div v-else style="text-align: center; padding: 40px; color: #999;">
-                    📋 No hay conductores activos
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB HISTORIAL -->
-        <div class="tab-content" :class="{active: tabActiva === 'historial'}">
-            <!-- FILTROS -->
-            <div class="dashboard" style="margin-bottom: 30px;">
-                <h2>🔍 Filtrar Registros</h2>
-                <div class="search-bar">
-                    <input v-model="filtro.busqueda" type="text" placeholder="Buscar conductor...">
-                    <select v-model="filtro.conductor_id">
-                        <option value="">Todos los conductores</option>
-                        <option v-for="c in conductoresTodas" :key="c.id" :value="c.id">{{ c.nombre }}</option>
-                    </select>
-                    <label style="display: flex; align-items: center; gap: 10px;">
-                        <input type="checkbox" v-model="filtro.mostrarInactivos">
-                        Mostrar inactivos
-                    </label>
-                </div>
-                <button class="btn" @click="exportarExcel" style="width: auto; margin-top: 10px;">
-                    📊 Exportar Excel
-                </button>
             </div>
 
-            <!-- ACORDEONES POR MES -->
-            <div class="dashboard">
-                <div v-for="(meses, anio) in registrosPorMes" :key="anio">
-                    <h3 style="margin-top: 30px; margin-bottom: 15px; color: #053d47;">{{ anio }}</h3>
-                    <div v-for="(registros, mes) in meses" :key="mes" class="accordion">
-                        <div class="accordion-header" @click="toggleMes(anio + '-' + mes)">
-                            <span>📅 {{ getNombreMes(mes) }} - {{ registros.length }} registros</span>
-                            <span>{{ mesAbierto === anio + '-' + mes ? '▼' : '▶' }}</span>
+            <!-- HISTORIAL TAB -->
+            <div v-if="activeTab === 'historial'" class="container">
+                <h2 class="section-title">📋 Historial de Registros</h2>
+                
+                <div class="filter-group">
+                    <div class="form-input">
+                        <label>Buscar por nombre</label>
+                        <input v-model="filters.search" type="text" placeholder="Nombre conductor...">
+                    </div>
+                    <div class="form-input">
+                        <label>Seleccionar Conductor</label>
+                        <select v-model="filters.conductor_id">
+                            <option value="">Todos los conductores</option>
+                            <option v-for="c in allConductores" :key="c.id" :value="c.id">
+                                {{ c.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-input">
+                        <label>
+                            <input v-model="filters.showInactivos" type="checkbox">
+                            Mostrar Inactivos
+                        </label>
+                    </div>
+                    <button @click="exportExcel" class="btn">📥 Exportar Excel</button>
+                </div>
+
+                <div v-for="(monthData, yearMonth) in groupedHistorial" :key="yearMonth">
+                    <div class="accordion">
+                        <div class="accordion-header" @click="toggleAccordion(yearMonth)">
+                            <span>{{ formatYearMonth(yearMonth) }} ({{ monthData.length }} registros)</span>
+                            <span>{{ expandedMonths[yearMonth] ? '▼' : '▶' }}</span>
                         </div>
-                        <div class="accordion-content" :class="{active: mesAbierto === anio + '-' + mes}">
-                            <table>
+                        <div :class="['accordion-content', { active: expandedMonths[yearMonth] }]">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Conductor</th>
@@ -587,27 +794,23 @@
                                         <th>Entrada</th>
                                         <th>Salida</th>
                                         <th>Total</th>
-                                        <th>Extra/Deficit</th>
+                                        <th>Extra/Déficit</th>
                                         <th>Notas</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="reg in registros" :key="reg.id">
-                                        <td><strong>{{ getConductorNombre(reg.conductor_id) }}</strong></td>
-                                        <td>{{ formatearFecha(reg.fecha) }}</td>
-                                        <td>{{ reg.hora_entrada }}</td>
-                                        <td>{{ reg.hora_salida }}</td>
-                                        <td><strong>{{ reg.total_horas.toFixed(2) }}h</strong></td>
+                                    <tr v-for="record in monthData" :key="record.id">
+                                        <td><strong>{{ getConductorName(record.conductor_id) }}</strong></td>
+                                        <td>{{ formatDate(record.fecha) }}</td>
+                                        <td>{{ record.hora_entrada }}</td>
+                                        <td>{{ record.hora_salida }}</td>
+                                        <td><strong>{{ record.total_horas }}h</strong></td>
+                                        <td>{{ record.total_horas > 8 ? '+' : '' }}{{ (record.total_horas - 8).toFixed(1) }}h</td>
+                                        <td>{{ record.notas }}</td>
                                         <td>
-                                            <span v-if="reg.horas_extra > 0" style="color: #10b981;">+{{ reg.horas_extra.toFixed(2) }}h</span>
-                                            <span v-else-if="reg.horas_deficit > 0" style="color: #f59e0b;">-{{ reg.horas_deficit.toFixed(2) }}h</span>
-                                            <span v-else style="color: #319ea5;">Normal</span>
-                                        </td>
-                                        <td>{{ reg.notas || '-' }}</td>
-                                        <td>
-                                            <button class="btn btn-sm" @click="abrirModalEditar(reg)">✏️ Editar</button>
-                                            <button class="btn btn-sm btn-danger" @click="eliminarRegistro(reg.id)">🗑️ Borrar</button>
+                                            <button @click="editRecord(record)" class="btn btn-secondary btn-small">✏️</button>
+                                            <button @click="deleteRecord(record.id)" class="btn btn-danger btn-small">🗑️</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -616,399 +819,505 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- MODAL EDITAR REGISTRO -->
-    <div id="modalEditar" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="cerrarModales()">&times;</span>
-            <h3>✏️ Editar Registro</h3>
-            <div v-if="registroEditando" class="form-group">
-                <label>Hora Entrada</label>
-                <input v-model="registroEditando.hora_entrada" type="time">
+            <!-- MODAL EDITAR -->
+            <div v-if="showEditModal" class="modal active">
+                <div class="modal-content">
+                    <span @click="showEditModal = false" class="modal-close">&times;</span>
+                    <h2 style="color: #053d47; margin-bottom: 20px;">Editar Registro</h2>
+                    <div class="form-group full">
+                        <div class="form-input">
+                            <label>Hora Entrada</label>
+                            <input v-model="editingRecord.hora_entrada" type="time">
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <div class="form-input">
+                            <label>Hora Salida</label>
+                            <input v-model="editingRecord.hora_salida" type="time">
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <div class="form-input">
+                            <label>Notas</label>
+                            <textarea v-model="editingRecord.notas"></textarea>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button @click="saveEdit" class="btn">💾 Guardar</button>
+                        <button @click="showEditModal = false" class="btn btn-secondary">❌ Cancelar</button>
+                    </div>
+                </div>
             </div>
-            <div v-if="registroEditando" class="form-group">
-                <label>Hora Salida</label>
-                <input v-model="registroEditando.hora_salida" type="time">
-            </div>
-            <div v-if="registroEditando" class="form-group">
-                <label>Notas</label>
-                <input v-model="registroEditando.notas" type="text">
-            </div>
-            <button class="btn btn-success" @click="guardarRegistroEditado()">Guardar Cambios</button>
-            <button class="btn btn-danger" @click="cerrarModales()" style="margin-top: 10px;">Cancelar</button>
-        </div>
-    </div>
 
-    <!-- MODAL COMPENSAR DÍA -->
-    <div id="modalCompensarDia" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="cerrarModales()">&times;</span>
-            <h3>📅 Compensar Día Completo (-8h)</h3>
-            <div class="form-group">
-                <label>Conductor</label>
-                <input v-if="conductorCompensando" :value="getConductorNombre(conductorCompensando)" type="text" disabled>
+            <!-- MODAL COMPENSAR -->
+            <div v-if="showCompensarModal_" class="modal active">
+                <div class="modal-content">
+                    <span @click="showCompensarModal_ = false" class="modal-close">&times;</span>
+                    <h2 style="color: #053d47; margin-bottom: 20px;">📅 Compensar Día</h2>
+                    <p style="margin-bottom: 20px; color: #666;">
+                        Registrar descanso compensatorio de 8 horas para <strong>{{ compensarConductor?.nombre }}</strong>
+                    </p>
+                    <div class="form-group full">
+                        <div class="form-input">
+                            <label>Fecha de Descanso</label>
+                            <input v-model="compensarData.fecha_descanso" type="date">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button @click="aplicarDescanso" class="btn btn-success">✅ Aplicar Descanso</button>
+                        <button @click="showCompensarModal_ = false" class="btn btn-secondary">❌ Cancelar</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Fecha de Descanso</label>
-                <input id="fechaCompensacion" type="date">
+
+            <!-- MODAL BAJA -->
+            <div v-if="showBaja" class="modal active">
+                <div class="modal-content">
+                    <span @click="showBaja = false" class="modal-close">&times;</span>
+                    <h2 style="color: #053d47; margin-bottom: 20px;">📉 Dar de Baja</h2>
+                    <p style="color: #d32f2f; margin-bottom: 20px;">
+                        ⚠️ ¿Marcar a <strong>{{ bajaConductor?.nombre }}</strong> como inactivo?
+                    </p>
+                    <div style="display: flex; gap: 10px;">
+                        <button @click="aplicarBaja" class="btn btn-danger">✅ Confirmar Baja</button>
+                        <button @click="showBaja = false" class="btn btn-secondary">❌ Cancelar</button>
+                    </div>
+                </div>
             </div>
-            <button class="btn btn-success" @click="confirmarCompensacion()">Confirmar Descanso (-8h)</button>
-            <button class="btn btn-danger" @click="cerrarModales()" style="margin-top: 10px;">Cancelar</button>
         </div>
     </div>
 
     <script>
-        const { createApp, ref, computed, onMounted, watch } = Vue;
+        const { createApp, ref, computed, onMounted, reactive } = Vue;
 
         createApp({
             setup() {
-                const tabActiva = ref('dashboard');
-                const conductores = ref([]);
-                const conductoresTodas = ref([]);
-                const bancoHoras = ref({});
+                // LOGIN STATE
+                const isLoggedIn = ref(false);
+                const loginForm = reactive({ username: '', password: '' });
+                const loginError = ref('');
+                const loginLoading = ref(false);
+
+                const handleLogin = async () => {
+                    loginLoading.value = true;
+                    loginError.value = '';
+
+                    try {
+                        const response = await fetch('/api/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(loginForm)
+                        });
+
+                        const data = await response.json();
+                        if (data.success) {
+                            isLoggedIn.value = true;
+                            localStorage.setItem('horacontrol_token', data.token);
+                            loadData();
+                        } else {
+                            loginError.value = data.message || 'Error en login';
+                        }
+                    } catch (error) {
+                        loginError.value = 'Error de conexión';
+                        console.error(error);
+                    }
+
+                    loginLoading.value = false;
+                };
+
+                const handleLogout = () => {
+                    isLoggedIn.value = false;
+                    localStorage.removeItem('horacontrol_token');
+                    loginForm.username = '';
+                    loginForm.password = '';
+                    loginError.value = '';
+                };
+
+                // MAIN STATE
+                const activeTab = ref('dashboard');
+                const allConductores = ref([]);
                 const registros = ref([]);
-                const alertas = ref([]);
-                const mesAbierto = ref(null);
-                const registroEditando = ref(null);
-                const conductorCompensando = ref(null);
-
-                const filtro = ref({
-                    busqueda: '',
-                    conductor_id: '',
-                    mostrarInactivos: false
-                });
-
-                const nuevoConductor = ref({ nombre: '' });
-                const nuevoRegistro = ref({
+                const alerts = ref([]);
+                const newRecord = reactive({
                     conductor_id: '',
                     fecha: new Date().toISOString().split('T')[0],
-                    hora_entrada: '08:00',
-                    hora_salida: '17:00',
+                    hora_entrada: '',
+                    hora_salida: '',
                     notas: ''
                 });
+                const newConductor = reactive({ nombre: '', email: '' });
+                const filters = reactive({ search: '', conductor_id: '', showInactivos: false });
+                const showEditModal = ref(false);
+                const showCompensarModal_ = ref(false);
+                const showBaja = ref(false);
+                const editingRecord = reactive({ id: null, hora_entrada: '', hora_salida: '', notas: '' });
+                const compensarConductor = ref(null);
+                const compensarData = reactive({ fecha_descanso: '' });
+                const bajaConductor = ref(null);
+                const expandedMonths = reactive({});
 
-                const API_URL = 'http://localhost:5000/api';
-                let chartBalances = null;
+                // COMPUTED
+                const activeConductores = computed(() =>
+                    allConductores.value.filter(c => c.activo)
+                );
 
-                // CARGAR DATOS
-                const cargarDatos = async () => {
-                    try {
-                        // Conductores activos
-                        const resCond = await fetch(`${API_URL}/conductores?activo=true`);
-                        const dataCond = await resCond.json();
-                        conductores.value = dataCond.conductores || [];
-
-                        // Todos los conductores
-                        const resCondAll = await fetch(`${API_URL}/conductores`);
-                        const dataCondAll = await resCondAll.json();
-                        conductoresTodas.value = dataCondAll.conductores || [];
-
-                        // Banco de horas
-                        const resBanco = await fetch(`${API_URL}/banco-horas`);
-                        const dataBanco = await resBanco.json();
-                        bancoHoras.value = {};
-                        dataBanco.conductores.forEach(c => {
-                            bancoHoras.value[c.conductor.id] = c.banco ? c.banco.balance_acumulado : 0;
+                const filteredRegistros = computed(() => {
+                    let result = registros.value;
+                    if (!filters.showInactivos) {
+                        result = result.filter(r => {
+                            const conductor = allConductores.value.find(c => c.id == r.conductor_id);
+                            return conductor && conductor.activo;
                         });
-
-                        // Registros de horas
-                        const resReg = await fetch(`${API_URL}/horas`);
-                        const dataReg = await resReg.json();
-                        registros.value = [];
-                        Object.values(dataReg.por_conductor || {}).forEach(conductor => {
-                            registros.value.push(...conductor.registros);
+                    }
+                    if (filters.search) {
+                        const s = filters.search.toLowerCase();
+                        result = result.filter(r => {
+                            const conductor = allConductores.value.find(c => c.id == r.conductor_id);
+                            return conductor && conductor.nombre.toLowerCase().includes(s);
                         });
-
-                        // Alertas
-                        const resAlertas = await fetch(`${API_URL}/banco-horas/alertas/`);
-                        const dataAlertas = await resAlertas.json();
-                        alertas.value = dataAlertas.alertas.map(a => ({
-                            conductor_id: a.conductor_id,
-                            conductor_nombre: a.conductor_nombre,
-                            mensaje: a.mensaje,
-                            tipo: a.tipo
-                        }));
-
-                        // Actualizar gráfico
-                        setTimeout(() => actualizarGrafico(), 100);
-                    } catch (error) {
-                        console.error('Error:', error);
                     }
+                    if (filters.conductor_id) {
+                        result = result.filter(r => r.conductor_id == filters.conductor_id);
+                    }
+                    return result.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                });
+
+                const groupedHistorial = computed(() => {
+                    const groups = {};
+                    filteredRegistros.value.forEach(r => {
+                        const [year, month] = r.fecha.split('-');
+                        const key = `${year}-${month}`;
+                        if (!groups[key]) groups[key] = [];
+                        groups[key].push(r);
+                    });
+                    return groups;
+                });
+
+                const totalConductores = computed(() => activeConductores.value.length);
+                const conductoresConDeficit = computed(() =>
+                    activeConductores.value.filter(c => getBalance(c.id) <= -2).length
+                );
+                const conductoresConDescanso = computed(() =>
+                    activeConductores.value.filter(c => getBalance(c.id) >= 8).length
+                );
+                const balanceTotal = computed(() =>
+                    activeConductores.value.reduce((sum, c) => sum + getBalance(c.id), 0)
+                );
+
+                // HELPER FUNCTIONS
+                const getTodayHours = (conductorId) => {
+                    const today = new Date().toISOString().split('T')[0];
+                    const record = registros.value.find(r => r.conductor_id == conductorId && r.fecha === today);
+                    return record ? record.total_horas : 0;
                 };
 
-                // CREAR CONDUCTOR
-                const crearConductor = async () => {
-                    if (!nuevoConductor.value.nombre) {
-                        alert('Ingresa nombre');
-                        return;
-                    }
-                    try {
-                        const res = await fetch(`${API_URL}/conductores`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ nombre: nuevoConductor.value.nombre })
-                        });
-                        if (res.ok) {
-                            alert('✅ Conductor creado');
-                            nuevoConductor.value = { nombre: '' };
-                            cargarDatos();
-                        }
-                    } catch (e) {
-                        alert('Error: ' + e);
-                    }
+                const getWeekHours = (conductorId) => {
+                    const today = new Date();
+                    const startOfWeek = new Date(today);
+                    startOfWeek.setDate(today.getDate() - today.getDay());
+                    const endOfWeek = new Date(startOfWeek);
+                    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                    return registros.value
+                        .filter(r => {
+                            const fecha = new Date(r.fecha);
+                            return r.conductor_id == conductorId && fecha >= startOfWeek && fecha <= endOfWeek;
+                        })
+                        .reduce((sum, r) => sum + r.total_horas, 0);
                 };
 
-                // REGISTRAR HORAS
-                const registrarHoras = async () => {
-                    if (!nuevoRegistro.value.conductor_id || !nuevoRegistro.value.fecha) {
-                        alert('Completa campos requeridos');
-                        return;
-                    }
-                    try {
-                        const res = await fetch(`${API_URL}/horas`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(nuevoRegistro.value)
-                        });
-                        if (res.ok) {
-                            alert('✅ Horas registradas');
-                            nuevoRegistro.value = {
-                                conductor_id: '',
-                                fecha: new Date().toISOString().split('T')[0],
-                                hora_entrada: '08:00',
-                                hora_salida: '17:00',
-                                notas: ''
-                            };
-                            cargarDatos();
-                        } else {
-                            const error = await res.json();
-                            alert('❌ ' + error.error);
-                        }
-                    } catch (e) {
-                        alert('Error: ' + e);
-                    }
+                const getBalance = (conductorId) => {
+                    return registros.value
+                        .filter(r => r.conductor_id == conductorId)
+                        .reduce((sum, r) => sum + (r.total_horas - 8), 0);
                 };
 
-                // DAR DE BAJA
-                const darDeBaja = async (id) => {
-                    if (confirm('¿Dar de baja este conductor?')) {
-                        try {
-                            await fetch(`${API_URL}/conductores/${id}`, {
-                                method: 'PUT',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ activo: false })
-                            });
-                            alert('✅ Dado de baja');
-                            cargarDatos();
-                        } catch (e) {
-                            alert('Error: ' + e);
-                        }
-                    }
+                const getStatusText = (balance) => {
+                    if (balance >= 8) return '🎯 Disponible ' + balance.toFixed(1) + 'h descanso';
+                    if (balance <= -2) return '⏳ Pendiente trabajar ' + Math.abs(balance).toFixed(1) + 'h';
+                    return '✅ Balance: ' + (balance > 0 ? '+' : '') + balance.toFixed(1) + 'h';
                 };
 
-                // EDITAR REGISTRO
-                const abrirModalEditar = (reg) => {
-                    registroEditando.value = JSON.parse(JSON.stringify(reg));
-                    document.getElementById('modalEditar').classList.add('active');
-                };
-
-                const guardarRegistroEditado = async () => {
-                    try {
-                        const res = await fetch(`${API_URL}/horas/${registroEditando.value.id}`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                hora_entrada: registroEditando.value.hora_entrada,
-                                hora_salida: registroEditando.value.hora_salida,
-                                notas: registroEditando.value.notas
-                            })
-                        });
-                        if (res.ok) {
-                            alert('✅ Registro actualizado');
-                            cerrarModales();
-                            cargarDatos();
-                        }
-                    } catch (e) {
-                        alert('Error: ' + e);
-                    }
-                };
-
-                // ELIMINAR REGISTRO
-                const eliminarRegistro = async (id) => {
-                    if (confirm('¿Eliminar este registro?')) {
-                        try {
-                            const res = await fetch(`${API_URL}/horas/${id}`, { method: 'DELETE' });
-                            if (res.ok) {
-                                alert('✅ Registro eliminado');
-                                cargarDatos();
-                            }
-                        } catch (e) {
-                            alert('Error: ' + e);
-                        }
-                    }
-                };
-
-                // COMPENSAR DÍA
-                const abrirModalCompensarDia = (id) => {
-                    conductorCompensando.value = id;
-                    document.getElementById('modalCompensarDia').classList.add('active');
-                };
-
-                const confirmarCompensacion = async () => {
-                    const fecha = document.getElementById('fechaCompensacion').value;
-                    if (!fecha) {
-                        alert('Selecciona fecha');
-                        return;
-                    }
-                    try {
-                        const res = await fetch(`${API_URL}/banco-horas/${conductorCompensando.value}/descanso`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ fecha_descanso: fecha })
-                        });
-                        if (res.ok) {
-                            alert('✅ Descanso compensatorio registrado (-8h)');
-                            cerrarModales();
-                            cargarDatos();
-                        } else {
-                            const error = await res.json();
-                            alert('Error: ' + error.error);
-                        }
-                    } catch (e) {
-                        alert('Error: ' + e);
-                    }
-                };
-
-                // HELPERS
-                const getBancoHoras = (id) => bancoHoras.value[id] || 0;
-
-                const getTextoBalance = (balance) => {
-                    if (balance >= 8) return `🎯 Disponible ${balance.toFixed(2)}h descanso`;
-                    if (balance <= -2) return `⏳ Pendiente trabajar ${Math.abs(balance).toFixed(2)}h`;
-                    return `✅ Balance: ${balance > 0 ? '+' : ''}${balance.toFixed(2)}h`;
-                };
-
-                const getConductorNombre = (id) => {
-                    const c = conductoresTodas.value.find(x => x.id === id);
+                const getConductorName = (id) => {
+                    const c = allConductores.value.find(c => c.id == id);
                     return c ? c.nombre : 'Desconocido';
                 };
 
-                const formatearFecha = (fecha) => {
-                    return new Date(fecha).toLocaleDateString('es-ES');
+                const formatDate = (date) => {
+                    const d = new Date(date + 'T00:00:00');
+                    return d.toLocaleDateString('es-ES');
                 };
 
-                const getNombreMes = (mes) => {
-                    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-                    return meses[parseInt(mes) - 1];
+                const formatYearMonth = (yearMonth) => {
+                    const [year, month] = yearMonth.split('-');
+                    const monthName = new Date(year, month - 1).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+                    return monthName.charAt(0).toUpperCase() + monthName.slice(1);
                 };
 
-                const toggleMes = (key) => {
-                    mesAbierto.value = mesAbierto.value === key ? null : key;
+                const toggleAccordion = (key) => {
+                    expandedMonths[key] = !expandedMonths[key];
                 };
 
-                const exportarExcel = () => {
-                    const datos = registros.value.map(r => ({
-                        'Conductor': getConductorNombre(r.conductor_id),
-                        'Fecha': formatearFecha(r.fecha),
+                // API CALLS
+                const loadData = async () => {
+                    try {
+                        const [conductoresRes, registrosRes, alertasRes] = await Promise.all([
+                            fetch('/api/conductores'),
+                            fetch('/api/horas'),
+                            fetch('/api/banco-horas/alertas/')
+                        ]);
+
+                        allConductores.value = await conductoresRes.json();
+                        registros.value = await registrosRes.json();
+                        alerts.value = (await alertasRes.json()).map(a => ({
+                            ...a,
+                            type: a.tipo === 'deficit' ? 'warning' : 'info'
+                        }));
+
+                        initChart();
+                    } catch (error) {
+                        console.error('Error cargando datos:', error);
+                        alert('Error al cargar datos');
+                    }
+                };
+
+                const addRecord = async () => {
+                    if (!newRecord.conductor_id || !newRecord.fecha || !newRecord.hora_entrada || !newRecord.hora_salida) {
+                        alert('Completa todos los campos obligatorios');
+                        return;
+                    }
+
+                    try {
+                        const res = await fetch('/api/horas', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                conductor_id: parseInt(newRecord.conductor_id),
+                                fecha: newRecord.fecha,
+                                hora_entrada: newRecord.hora_entrada,
+                                hora_salida: newRecord.hora_salida,
+                                notas: newRecord.notas
+                            })
+                        });
+
+                        if (res.ok) {
+                            alert('✅ Hora registrada');
+                            newRecord.conductor_id = '';
+                            newRecord.hora_entrada = '';
+                            newRecord.hora_salida = '';
+                            newRecord.notas = '';
+                            loadData();
+                        } else {
+                            alert('Error al registrar hora');
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert('Error');
+                    }
+                };
+
+                const addConductor = async () => {
+                    if (!newConductor.nombre) {
+                        alert('Ingresa el nombre del conductor');
+                        return;
+                    }
+
+                    try {
+                        const res = await fetch('/api/conductores', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newConductor)
+                        });
+
+                        if (res.ok) {
+                            alert('✅ Conductor creado');
+                            newConductor.nombre = '';
+                            newConductor.email = '';
+                            loadData();
+                        } else {
+                            alert('Error al crear conductor');
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert('Error');
+                    }
+                };
+
+                const editRecord = (record) => {
+                    editingRecord.id = record.id;
+                    editingRecord.hora_entrada = record.hora_entrada;
+                    editingRecord.hora_salida = record.hora_salida;
+                    editingRecord.notas = record.notas;
+                    showEditModal.value = true;
+                };
+
+                const saveEdit = async () => {
+                    try {
+                        const res = await fetch(`/api/horas/${editingRecord.id}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                hora_entrada: editingRecord.hora_entrada,
+                                hora_salida: editingRecord.hora_salida,
+                                notas: editingRecord.notas
+                            })
+                        });
+
+                        if (res.ok) {
+                            alert('✅ Registro actualizado');
+                            showEditModal.value = false;
+                            loadData();
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert('Error');
+                    }
+                };
+
+                const deleteRecord = async (id) => {
+                    if (confirm('¿Eliminar este registro?')) {
+                        try {
+                            const res = await fetch(`/api/horas/${id}`, { method: 'DELETE' });
+                            if (res.ok) {
+                                alert('✅ Registro eliminado');
+                                loadData();
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            alert('Error');
+                        }
+                    }
+                };
+
+                const showCompensarModal = (conductor) => {
+                    compensarConductor.value = conductor;
+                    compensarData.fecha_descanso = new Date().toISOString().split('T')[0];
+                    showCompensarModal_.value = true;
+                };
+
+                const aplicarDescanso = async () => {
+                    try {
+                        const res = await fetch(`/api/banco-horas/${compensarConductor.value.id}/descanso`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ fecha_descanso: compensarData.fecha_descanso })
+                        });
+
+                        if (res.ok) {
+                            alert('✅ Descanso compensatorio aplicado');
+                            showCompensarModal_.value = false;
+                            loadData();
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert('Error');
+                    }
+                };
+
+                const showBajaModal = (conductor) => {
+                    bajaConductor.value = conductor;
+                    showBaja.value = true;
+                };
+
+                const aplicarBaja = async () => {
+                    try {
+                        const res = await fetch(`/api/conductores/${bajaConductor.value.id}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ activo: false })
+                        });
+
+                        if (res.ok) {
+                            alert('✅ Conductor marcado como inactivo');
+                            showBaja.value = false;
+                            loadData();
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert('Error');
+                    }
+                };
+
+                const exportExcel = () => {
+                    const data = filteredRegistros.value.map(r => ({
+                        'Conductor': getConductorName(r.conductor_id),
+                        'Fecha': formatDate(r.fecha),
                         'Entrada': r.hora_entrada,
                         'Salida': r.hora_salida,
-                        'Total (h)': r.total_horas.toFixed(2),
-                        'Extra (h)': r.horas_extra.toFixed(2),
-                        'Deficit (h)': r.horas_deficit.toFixed(2),
+                        'Total': r.total_horas,
+                        'Extra/Deficit': (r.total_horas - 8).toFixed(1),
                         'Notas': r.notas
                     }));
-                    const ws = XLSX.utils.json_to_sheet(datos);
+
+                    const ws = XLSX.utils.json_to_sheet(data);
                     const wb = XLSX.utils.book_new();
                     XLSX.utils.book_append_sheet(wb, ws, 'Horas');
                     XLSX.writeFile(wb, 'HoraControl_' + new Date().toISOString().split('T')[0] + '.xlsx');
                 };
 
-                const actualizarGrafico = () => {
-                    const ctx = document.getElementById('chartBalances');
-                    if (!ctx) return;
+                const initChart = () => {
+                    setTimeout(() => {
+                        const canvas = document.getElementById('balanceChart');
+                        if (!canvas) return;
 
-                    const labels = conductores.value.map(c => c.nombre);
-                    const data = conductores.value.map(c => getBancoHoras(c.id));
+                        const ctx = canvas.getContext('2d');
+                        if (window.balanceChartInstance) {
+                            window.balanceChartInstance.destroy();
+                        }
 
-                    if (chartBalances) chartBalances.destroy();
+                        const labels = activeConductores.value.map(c => c.nombre);
+                        const data = activeConductores.value.map(c => getBalance(c.id));
 
-                    chartBalances = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Balance de Horas',
-                                data: data,
-                                backgroundColor: data.map(v => v >= 8 ? '#f59e0b' : v <= -2 ? '#ef4444' : '#10b981'),
-                                borderColor: '#319ea5',
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false }
+                        window.balanceChartInstance = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Balance de Horas',
+                                    data: data,
+                                    backgroundColor: data.map(v => v >= 8 ? '#388e3c' : v >= 0 ? '#319ea5' : '#d32f2f'),
+                                    borderColor: '#053d47',
+                                    borderWidth: 2
+                                }]
                             },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: { display: true, text: 'Horas' }
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                indexAxis: 'y',
+                                scales: {
+                                    x: { beginAtZero: true }
+                                },
+                                plugins: {
+                                    legend: { display: false }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }, 100);
                 };
 
-                // COMPUTED
-                const registrosPorMes = computed(() => {
-                    const grouped = {};
-                    registros.value.forEach(r => {
-                        const fecha = new Date(r.fecha);
-                        const anio = fecha.getFullYear();
-                        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-                        if (!grouped[anio]) grouped[anio] = {};
-                        if (!grouped[anio][mes]) grouped[anio][mes] = [];
-                        grouped[anio][mes].push(r);
-                    });
-                    return grouped;
-                });
-
-                const conductoresConDeficit = computed(() => {
-                    return conductores.value.filter(c => getBancoHoras(c.id) <= -2).length;
-                });
-
-                const conductoresConDescanso = computed(() => {
-                    return conductores.value.filter(c => getBancoHoras(c.id) >= 8).length;
-                });
-
-                const balanceTotal = computed(() => {
-                    return conductores.value.reduce((sum, c) => sum + getBancoHoras(c.id), 0);
-                });
-
                 onMounted(() => {
-                    cargarDatos();
-                    setInterval(cargarDatos, 30000);
+                    const token = localStorage.getItem('horacontrol_token');
+                    if (token) {
+                        isLoggedIn.value = true;
+                        loadData();
+                    }
                 });
 
                 return {
-                    tabActiva, conductores, conductoresTodas, bancoHoras, registros, alertas, mesAbierto,
-                    registroEditando, conductorCompensando, filtro, nuevoConductor, nuevoRegistro,
-                    crearConductor, registrarHoras, darDeBaja, abrirModalEditar, guardarRegistroEditado,
-                    eliminarRegistro, abrirModalCompensarDia, confirmarCompensacion,
-                    getBancoHoras, getTextoBalance, getConductorNombre, formatearFecha, getNombreMes,
-                    toggleMes, exportarExcel, registrosPorMes, conductoresConDeficit,
-                    conductoresConDescanso, balanceTotal
+                    isLoggedIn, loginForm, loginError, loginLoading, handleLogin, handleLogout,
+                    activeTab, allConductores, registros, alerts, newRecord, newConductor, filters,
+                    showEditModal, showCompensarModal_, showBaja, editingRecord, compensarConductor,
+                    compensarData, bajaConductor, expandedMonths,
+                    activeConductores, filteredRegistros, groupedHistorial,
+                    totalConductores, conductoresConDeficit, conductoresConDescanso, balanceTotal,
+                    getTodayHours, getWeekHours, getBalance, getStatusText, getConductorName, formatDate,
+                    formatYearMonth, toggleAccordion,
+                    loadData, addRecord, addConductor, editRecord, saveEdit, deleteRecord,
+                    showCompensarModal, aplicarDescanso, showBajaModal, aplicarBaja, exportExcel
                 };
             }
         }).mount('#app');
-
-        function cerrarModales() {
-            document.getElementById('modalEditar').classList.remove('active');
-            document.getElementById('modalCompensarDia').classList.remove('active');
-        }
     </script>
 </body>
 </html>

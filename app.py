@@ -1,9 +1,10 @@
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify, request
 from flask_cors import CORS
 from config import Config
 from models import db, init_db
 from routes import conductores_bp, horas_bp, banco_horas_bp
+from utils.auth import verify_credentials, get_token
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -16,6 +17,25 @@ db.init_app(app)
 app.register_blueprint(conductores_bp)
 app.register_blueprint(horas_bp)
 app.register_blueprint(banco_horas_bp)
+
+# Ruta de login (sin protección)
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    
+    if verify_credentials(username, password):
+        return jsonify({
+            'success': True,
+            'message': 'Login exitoso',
+            'token': 'valid'
+        }), 200
+    else:
+        return jsonify({
+            'success': False,
+            'message': 'Usuario o contraseña incorrectos'
+        }), 401
 
 # Servir index.html
 @app.route('/')
