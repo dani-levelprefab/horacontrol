@@ -1,217 +1,135 @@
-# routes/banco_horas.py
-
 from flask import Blueprint, request, jsonify
-from models import db, Conductor, BancoHoras
 from datetime import datetime
+from models import db, RegistroHoras, Conductor
+from utils.calculos import calcular_balance_acumulado
+from utils.alertas import actualizar_banco_horas
 
-banco_horas_bp = Blueprint('banco_horas', __name__, url_prefix='/api/banco-horas')
+banco_horas_bp = Blueprint('banco_horas', __name__)
 
-# ✅ OBTENER BANCO DE HORAS POR CONDUCTOR
-@banco_horas_bp.route('/conductor/<int:conductor_id>', methods=['GET'])
-def obtener_banco_conductor(conductor_id):
-    """GET /api/banco-horas/conductor/1"""
-    conductor = Conductor.query.get(conductor_id)
-    
-    if not conductor:
-        return jsonify({'error': 'Conductor no encontrado'}), 404
-    
-    banco = BancoHoras.query.filter_by(conductor_id=conductor_id).first()
-    
-    if not banco:
-        return jsonify({
-            'conductor': conductor.to_dict(),
-            'banco': None,
-            'mensaje': 'Sin registros de banco de horas aún'
-        }), 200
-    
-    return jsonify({
-        'conductor': conductor.to_dict(),
-        'banco': banco.to_dict()
-    }), 200
-
-
-# ✅ OBTENER BANCO DE HORAS DE TODOS LOS CONDUCTORES
-@banco_horas_bp.route('/', methods=['GET'])
-def obtener_banco_todos():
-    """GET /api/banco-horas"""
+# GET dashboard view
+@banco_horas_bp.route('/api/banco-horas/dashboard/', methods=['GET'])
+def get_dashboard():
     conductores = Conductor.query.filter_by(activo=True).all()
     
-    resultado = []
+    dashboard = []
     for conductor in conductores:
-        banco = BancoHoras.query.filter_by(conductor_id=conductor.id).first()
+        registros = RegistroHoras.query.filter_by(conductor_id=conductor.id).all()
+        balance = sum(r.total_horas - 8 for r in registros)
         
-        resultado.append({
-            'conductor': conductor.to_dict(),
-            'banco': banco.to_dict() if banco else {
-                'balance_acumulado': 0,
-                'descanso_compensatorio_disponible': False,
-                'estado': 'Pendiente'
-            }
+        dashboard.append({
+            'conductor_id': conductor.id,
+            'nombre': conductor.nombre,
+            'balance': round(balance, 2),
+            'total_registros': len(registros)
         })
     
+    return jsonify(dashboard)
+
+# GET alertas
+@banco_horas_bp.route('/api/banco-horas/alertas/', methods=['GET'])
+def get_alertas():
+    alertas = []
+    conductores = Conductor.query.filter_by(activo=True).all()
+    
+    for conductor in conductores:
+        registros = RegistroHoras.query.filter_by(conductor_id=conductor.id).all()
+        balance = sum(r.total_horas - 8 for r in registros)
+        
+        # Alerta: +8h disponible para descanso
+        if balance >= 8:
+            alertas.append({
+                'id': f"alert_{conductor.id}_descanso",
+                'tipo': 'descanso',
+                'conductor_id': conductor.id,
+                'message': f"🎯 {conductor.nombre} tiene {balance:.1f}h disponibles para descanso compensatorio"
+            })
+        
+        # Alerta: -2h o más de déficit
+        if balance <= -2:
+            alertas.append({
+                'id': f"alert_{conductor.id}_deficit",
+                'tipo': 'deficit',
+                'conductor_id': conductor.id,
+                'message': f"⏳ {conductor.nombre} tiene {abs(balance):.1f}h pendientes de trabajar"
+            })
+    
+    return jsonify(alertas)
+
+# GET balance by conductor
+@banco_horas_bp.route('/api/banco-horas/conductor/<int:conductor_id>', methods=['GET'])
+def get_balance_conductor(conductor_id):
+    registros = RegistroHoras.query.filter_by(conductor_id=conductor_id).all()
+    balance = sum(r.total_horas - 8 for r in registros)
+    
     return jsonify({
-        'total_conductores': len(resultado),
-        'conductores': resultado
-    }), 200
+        'conductor_id': conductor_id,
+        'balance': round(balance, 2),
+        'total_horas_trabajadas': sum(r.total_horas for r in registros),
+        'total_registros': len(registros)
+    })
 
-
-# ✅ REGISTRAR DESCANSO COMPENSATORIO
-@banco_horas_bp.route('/<int:conductor_id>/descanso', methods=['POST'])
-def registrar_descanso(conductor_id):
-    """
-    POST /api/banco-horas/1/descanso
-    Body: { "fecha_descanso": "2026-08-10" }
-    """
+# POST aplicar descanso compensatorio
+@banco_horas_bp.route('/api/banco-horas/<int:conductor_id>/descanso', methods=['POST'])
+def aplicar_descanso(conductor_id):
     conductor = Conductor.query.get(conductor_id)
     
     if not conductor:
-        return jsonify({'error': 'Conductor no encontrado'}), 404
-    
-    banco = BancoHoras.query.filter_by(conductor_id=conductor_id).first()
-    
-    if not banco:
-        return jsonify({'error': 'Sin banco de horas registrado'}), 404
-    
-    if not banco.descanso_compensatorio_disponible:
-        return jsonify({'error': 'No hay descanso compensatorio disponible'}), 400
+        return jsonify({'error': 'Conductor not found'}), 404
     
     data = request.get_json()
-    if not data.get('fecha_descanso'):
-        return jsonify({'error': 'Campo "fecha_descanso" requerido'}), 400
+    fecha_descanso = data.get('fecha_descanso')
     
-    fecha_descanso = datetime.strptime(data['fecha_descanso'], '%Y-%m-%d').date()
+    if not fecha_descanso:
+        return jsonify({'error': 'fecha_descanso es requerido'}), 400
     
-    # Actualizar banco
-    banco.fecha_descanso_tomado = fecha_descanso
-    banco.descanso_compensatorio_disponible = False
-    banco.balance_acumulado -= 8  # Consumir las 8 horas
-    banco.estado = 'Descansado'
-    
-    db.session.commit()
-    
-    return jsonify({
-        'mensaje': f'Descanso compensatorio registrado para {fecha_descanso}',
-        'banco': banco.to_dict()
-    }), 200
-
-
-# ✅ OBTENER ALERTAS ACTIVAS
-@banco_horas_bp.route('/alertas/', methods=['GET'])
-def obtener_alertas():
-    """GET /api/banco-horas/alertas/"""
-    conductores = Conductor.query.filter_by(activo=True).all()
-    
-    alertas = []
-    
-    for conductor in conductores:
-        banco = BancoHoras.query.filter_by(conductor_id=conductor.id).first()
+    try:
+        # Crear registro de descanso como -8 horas
+        registro_descanso = RegistroHoras(
+            conductor_id=conductor_id,
+            fecha=fecha_descanso,
+            hora_entrada='--:--',
+            hora_salida='--:--',
+            total_horas=-8,
+            notas='Compensación de horas'
+        )
         
-        if not banco:
-            continue
+        db.session.add(registro_descanso)
+        db.session.commit()
         
-        # Alerta 1: +8h acumuladas (descanso compensatorio disponible)
-        if banco.balance_acumulado >= 8 and not banco.descanso_compensatorio_disponible:
-            alertas.append({
-                'tipo': 'DESCANSO_DISPONIBLE',
-                'conductor_id': conductor.id,
-                'conductor_nombre': conductor.nombre,
-                'email': conductor.email,
-                'mensaje': f'{conductor.nombre} ha acumulado {banco.balance_acumulado}h - Planificar descanso',
-                'severidad': 'ALTA',
-                'fecha': datetime.utcnow().isoformat()
-            })
+        # Actualizar banco de horas
+        actualizar_banco_horas(conductor_id)
         
-        # Alerta 2: -2h pendientes de compensar
-        if banco.balance_acumulado <= -2:
-            alertas.append({
-                'tipo': 'DEFICIT_COMPENSAR',
-                'conductor_id': conductor.id,
-                'conductor_nombre': conductor.nombre,
-                'email': conductor.email,
-                'mensaje': f'{conductor.nombre} tiene {abs(banco.balance_acumulado)}h pendientes de compensar',
-                'severidad': 'MEDIA',
-                'fecha': datetime.utcnow().isoformat()
-            })
-    
-    return jsonify({
-        'total_alertas': len(alertas),
-        'alertas': alertas
-    }), 200
+        return jsonify({
+            'message': 'Descanso compensatorio aplicado',
+            'conductor_id': conductor_id,
+            'fecha_descanso': fecha_descanso,
+            'horas_restadas': -8
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
-
-# ✅ RESETEAR BANCO (administrativo - ej: nuevo mes)
-@banco_horas_bp.route('/<int:conductor_id>/resetear', methods=['POST'])
+# POST resetear banco (admin only)
+@banco_horas_bp.route('/api/banco-horas/<int:conductor_id>/resetear', methods=['POST'])
 def resetear_banco(conductor_id):
-    """
-    POST /api/banco-horas/1/resetear
-    Solo administrador. Resetea el banco de horas.
-    """
+    """Elimina todos los registros de un conductor (admin)"""
     conductor = Conductor.query.get(conductor_id)
     
     if not conductor:
-        return jsonify({'error': 'Conductor no encontrado'}), 404
+        return jsonify({'error': 'Conductor not found'}), 404
     
-    banco = BancoHoras.query.filter_by(conductor_id=conductor_id).first()
-    
-    if banco:
-        db.session.delete(banco)
-    
-    nuevo_banco = BancoHoras(
-        conductor_id=conductor_id,
-        balance_acumulado=0,
-        estado='Pendiente'
-    )
-    
-    db.session.add(nuevo_banco)
-    db.session.commit()
-    
-    return jsonify({
-        'mensaje': f'Banco de horas de {conductor.nombre} reseteado',
-        'banco': nuevo_banco.to_dict()
-    }), 200
-
-
-# ✅ OBTENER DASHBOARD COMPLETO
-@banco_horas_bp.route('/dashboard/', methods=['GET'])
-def dashboard():
-    """GET /api/banco-horas/dashboard/ - Vista completa para Gustavo + Dani"""
-    conductores = Conductor.query.filter_by(activo=True).all()
-    
-    dashboard_data = []
-    
-    for conductor in conductores:
-        banco = BancoHoras.query.filter_by(conductor_id=conductor.id).first()
+    try:
+        registros = RegistroHoras.query.filter_by(conductor_id=conductor_id).all()
+        for registro in registros:
+            db.session.delete(registro)
         
-        # Determinar estado visual
-        if not banco:
-            estado = 'SIN REGISTROS'
-            balance = 0
-            alerta = None
-        elif banco.balance_acumulado >= 8:
-            estado = '⚠️ DESCANSO DISPONIBLE'
-            balance = banco.balance_acumulado
-            alerta = 'DESCANSO'
-        elif banco.balance_acumulado <= -2:
-            estado = '⚠️ COMPENSAR HORAS'
-            balance = banco.balance_acumulado
-            alerta = 'DEFICIT'
-        else:
-            estado = '✅ NORMAL'
-            balance = banco.balance_acumulado
-            alerta = None
+        db.session.commit()
         
-        dashboard_data.append({
-            'conductor_id': conductor.id,
-            'conductor_nombre': conductor.nombre,
-            'email': conductor.email,
-            'balance_horas': balance,
-            'estado': estado,
-            'alerta': alerta,
-            'descanso_tomado': banco.fecha_descanso_tomado.isoformat() if banco and banco.fecha_descanso_tomado else None
-        })
-    
-    return jsonify({
-        'fecha_consulta': datetime.utcnow().isoformat(),
-        'total_conductores': len(dashboard_data),
-        'conductores': dashboard_data
-    }), 200
+        return jsonify({
+            'message': 'Banco de horas reseteado',
+            'conductor_id': conductor_id,
+            'registros_eliminados': len(registros)
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500

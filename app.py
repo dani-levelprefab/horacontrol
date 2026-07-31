@@ -2,9 +2,7 @@ import os
 from flask import Flask, send_from_directory, jsonify, request
 from flask_cors import CORS
 from config import Config
-from models import db, init_db
-from routes import conductores_bp, horas_bp, banco_horas_bp
-from utils.auth import verify_credentials, get_token
+from models import db
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.config.from_object(Config)
@@ -13,14 +11,11 @@ CORS(app)
 # Inicializar BD
 db.init_app(app)
 
-# Registrar blueprints
-app.register_blueprint(conductores_bp)
-app.register_blueprint(horas_bp)
-app.register_blueprint(banco_horas_bp)
-
 # Ruta de login (sin protección)
 @app.route('/api/login', methods=['POST'])
 def login():
+    from utils.auth import verify_credentials
+    
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
@@ -37,7 +32,16 @@ def login():
             'message': 'Usuario o contraseña incorrectos'
         }), 401
 
-# Servir archivos estáticos (logo.png, etc)
+# Importar y registrar blueprints DESPUÉS de crear app
+from routes.conductores import conductores_bp
+from routes.horas import horas_bp
+from routes.banco_horas import banco_horas_bp
+
+app.register_blueprint(conductores_bp)
+app.register_blueprint(horas_bp)
+app.register_blueprint(banco_horas_bp)
+
+# Servir archivos estáticos
 @app.route('/logo.png')
 def serve_logo():
     return send_from_directory('.', 'logo.png')
@@ -52,6 +56,5 @@ with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
-    # Para Render: usar puerto dinámico desde variable de entorno
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
