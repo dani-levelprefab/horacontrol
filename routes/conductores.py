@@ -3,8 +3,11 @@ from models import db, Conductor
 
 conductores_bp = Blueprint('conductores', __name__)
 
-@conductores_bp.route('/api/conductores', methods=['GET'])
+@conductores_bp.route('/api/conductores', methods=['GET', 'OPTIONS'])
 def get_conductores():
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     activo = request.args.get('activo')
     
     if activo:
@@ -20,8 +23,11 @@ def get_conductores():
         'activo': c.activo
     } for c in conductores])
 
-@conductores_bp.route('/api/conductores', methods=['POST'])
+@conductores_bp.route('/api/conductores', methods=['POST', 'OPTIONS'])
 def create_conductor():
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     data = request.get_json()
     
     if not data or not data.get('nombre'):
@@ -46,8 +52,11 @@ def create_conductor():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['GET'])
+@conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['GET', 'OPTIONS'])
 def get_conductor(conductor_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     conductor = Conductor.query.get(conductor_id)
     
     if not conductor:
@@ -60,8 +69,11 @@ def get_conductor(conductor_id):
         'activo': conductor.activo
     })
 
-@conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['PUT'])
+@conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['PUT', 'OPTIONS'])
 def update_conductor(conductor_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     conductor = Conductor.query.get(conductor_id)
     
     if not conductor:
@@ -89,8 +101,11 @@ def update_conductor(conductor_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['DELETE'])
+@conductores_bp.route('/api/conductores/<int:conductor_id>', methods=['DELETE', 'OPTIONS'])
 def delete_conductor(conductor_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     conductor = Conductor.query.get(conductor_id)
     
     if not conductor:

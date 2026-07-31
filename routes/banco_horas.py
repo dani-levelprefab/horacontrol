@@ -5,8 +5,11 @@ from utils.alertas import actualizar_banco_horas
 
 banco_horas_bp = Blueprint('banco_horas', __name__)
 
-@banco_horas_bp.route('/api/banco-horas/dashboard/', methods=['GET'])
+@banco_horas_bp.route('/api/banco-horas/dashboard/', methods=['GET', 'OPTIONS'])
 def get_dashboard():
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     conductores = Conductor.query.filter_by(activo=True).all()
     
     dashboard = []
@@ -23,8 +26,11 @@ def get_dashboard():
     
     return jsonify(dashboard)
 
-@banco_horas_bp.route('/api/banco-horas/alertas/', methods=['GET'])
+@banco_horas_bp.route('/api/banco-horas/alertas/', methods=['GET', 'OPTIONS'])
 def get_alertas():
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     alertas = []
     conductores = Conductor.query.filter_by(activo=True).all()
     
@@ -50,8 +56,11 @@ def get_alertas():
     
     return jsonify(alertas)
 
-@banco_horas_bp.route('/api/banco-horas/conductor/<int:conductor_id>', methods=['GET'])
+@banco_horas_bp.route('/api/banco-horas/conductor/<int:conductor_id>', methods=['GET', 'OPTIONS'])
 def get_balance_conductor(conductor_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     registros = RegistroHoras.query.filter_by(conductor_id=conductor_id).all()
     balance = calcular_balance_acumulado(registros)
     
@@ -62,8 +71,11 @@ def get_balance_conductor(conductor_id):
         'total_registros': len(registros)
     })
 
-@banco_horas_bp.route('/api/banco-horas/<int:conductor_id>/descanso', methods=['POST'])
+@banco_horas_bp.route('/api/banco-horas/<int:conductor_id>/descanso', methods=['POST', 'OPTIONS'])
 def aplicar_descanso(conductor_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     conductor = Conductor.query.get(conductor_id)
     
     if not conductor:
@@ -100,8 +112,11 @@ def aplicar_descanso(conductor_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@banco_horas_bp.route('/api/banco-horas/<int:conductor_id>/resetear', methods=['POST'])
+@banco_horas_bp.route('/api/banco-horas/<int:conductor_id>/resetear', methods=['POST', 'OPTIONS'])
 def resetear_banco(conductor_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     conductor = Conductor.query.get(conductor_id)
     
     if not conductor:

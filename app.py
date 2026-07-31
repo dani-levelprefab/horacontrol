@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_from_directory, jsonify, request
+from flask import Flask, send_from_directory, jsonify, request, redirect
 from flask_cors import CORS
 from config import Config
 from models import db
@@ -8,9 +8,17 @@ from models import db
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.config.from_object(Config)
 
+# ===== FORZAR HTTPS EN PRODUCCIÓN =====
+@app.before_request
+def before_request():
+    if os.environ.get('RENDER'):
+        if request.headers.get('X-Forwarded-Proto') == 'http':
+            url = request.url.replace('http://', 'https://', 1)
+            return redirect(url, code=301)
+
 # ===== CONFIGURAR CORS CORRECTAMENTE =====
 CORS(app, 
-     origins=['https://horacontrol.onrender.com', 'http://localhost:5000', 'http://127.0.0.1:5000'],
+     resources={r"/api/*": {"origins": "*"}},
      methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
      allow_headers=['Content-Type', 'Authorization'],
      supports_credentials=True)
@@ -19,8 +27,11 @@ CORS(app,
 db.init_app(app)
 
 # ===== RUTAS DE LOGIN =====
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/login', methods=['POST', 'OPTIONS'])
 def login():
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     from utils.auth import verify_credentials
     
     data = request.get_json()

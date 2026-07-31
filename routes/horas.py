@@ -5,8 +5,11 @@ from utils.alertas import actualizar_banco_horas
 
 horas_bp = Blueprint('horas', __name__)
 
-@horas_bp.route('/api/horas', methods=['GET'])
+@horas_bp.route('/api/horas', methods=['GET', 'OPTIONS'])
 def get_registros():
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     try:
         fecha = request.args.get('fecha')
         conductor_id = request.args.get('conductor_id')
@@ -31,10 +34,13 @@ def get_registros():
         } for r in registros])
     except Exception as e:
         print(f"Error en GET /api/horas: {e}")
-        return jsonify([])  # Retorna lista vacía en lugar de error
+        return jsonify([])
 
-@horas_bp.route('/api/horas', methods=['POST'])
+@horas_bp.route('/api/horas', methods=['POST', 'OPTIONS'])
 def create_registro():
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     data = request.get_json()
     
     required = ['conductor_id', 'fecha', 'hora_entrada', 'hora_salida']
@@ -56,7 +62,6 @@ def create_registro():
         db.session.add(registro)
         db.session.commit()
         
-        # Actualizar banco de horas
         actualizar_banco_horas(data['conductor_id'])
         
         return jsonify({
@@ -73,8 +78,11 @@ def create_registro():
         print(f"Error en POST /api/horas: {e}")
         return jsonify({'error': str(e)}), 500
 
-@horas_bp.route('/api/horas/<int:registro_id>', methods=['PUT'])
+@horas_bp.route('/api/horas/<int:registro_id>', methods=['PUT', 'OPTIONS'])
 def update_registro(registro_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     registro = RegistroHoras.query.get(registro_id)
     
     if not registro:
@@ -108,8 +116,11 @@ def update_registro(registro_id):
         print(f"Error en PUT /api/horas/{registro_id}: {e}")
         return jsonify({'error': str(e)}), 500
 
-@horas_bp.route('/api/horas/<int:registro_id>', methods=['DELETE'])
+@horas_bp.route('/api/horas/<int:registro_id>', methods=['DELETE', 'OPTIONS'])
 def delete_registro(registro_id):
+    if request.method == 'OPTIONS':
+        return '', 200
+        
     registro = RegistroHoras.query.get(registro_id)
     
     if not registro:
