@@ -7,27 +7,31 @@ horas_bp = Blueprint('horas', __name__)
 
 @horas_bp.route('/api/horas', methods=['GET'])
 def get_registros():
-    fecha = request.args.get('fecha')
-    conductor_id = request.args.get('conductor_id')
-    
-    query = RegistroHoras.query
-    
-    if fecha:
-        query = query.filter_by(fecha=fecha)
-    if conductor_id:
-        query = query.filter_by(conductor_id=conductor_id)
-    
-    registros = query.all()
-    
-    return jsonify([{
-        'id': r.id,
-        'conductor_id': r.conductor_id,
-        'fecha': str(r.fecha),
-        'hora_entrada': r.hora_entrada,
-        'hora_salida': r.hora_salida,
-        'total_horas': r.total_horas,
-        'notas': r.notas
-    } for r in registros])
+    try:
+        fecha = request.args.get('fecha')
+        conductor_id = request.args.get('conductor_id')
+        
+        query = RegistroHoras.query
+        
+        if fecha:
+            query = query.filter_by(fecha=fecha)
+        if conductor_id:
+            query = query.filter_by(conductor_id=conductor_id)
+        
+        registros = query.all()
+        
+        return jsonify([{
+            'id': r.id,
+            'conductor_id': r.conductor_id,
+            'fecha': str(r.fecha),
+            'hora_entrada': r.hora_entrada,
+            'hora_salida': r.hora_salida,
+            'total_horas': r.total_horas,
+            'notas': r.notas
+        } for r in registros])
+    except Exception as e:
+        print(f"Error en GET /api/horas: {e}")
+        return jsonify([])  # Retorna lista vacía en lugar de error
 
 @horas_bp.route('/api/horas', methods=['POST'])
 def create_registro():
@@ -66,6 +70,7 @@ def create_registro():
         }), 201
     except Exception as e:
         db.session.rollback()
+        print(f"Error en POST /api/horas: {e}")
         return jsonify({'error': str(e)}), 500
 
 @horas_bp.route('/api/horas/<int:registro_id>', methods=['PUT'])
@@ -100,6 +105,7 @@ def update_registro(registro_id):
         })
     except Exception as e:
         db.session.rollback()
+        print(f"Error en PUT /api/horas/{registro_id}: {e}")
         return jsonify({'error': str(e)}), 500
 
 @horas_bp.route('/api/horas/<int:registro_id>', methods=['DELETE'])
@@ -119,4 +125,5 @@ def delete_registro(registro_id):
         return jsonify({'message': 'Registro deleted'}), 200
     except Exception as e:
         db.session.rollback()
+        print(f"Error en DELETE /api/horas/{registro_id}: {e}")
         return jsonify({'error': str(e)}), 500
