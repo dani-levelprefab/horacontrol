@@ -1,22 +1,19 @@
 import os
-import sys
 from flask import Flask, send_from_directory, jsonify, request
 from flask_cors import CORS
 from config import Config
 from models import db
 
-# ===== ELIMINAR BD ANTIGUA SI EXISTE =====
-if os.path.exists('database.db'):
-    try:
-        os.remove('database.db')
-        print("✅ BD anterior eliminada - esquema será recreado")
-    except Exception as e:
-        print(f"⚠️ No se pudo eliminar BD anterior: {e}")
-
 # ===== CREAR APLICACIÓN =====
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.config.from_object(Config)
-CORS(app)
+
+# ===== CONFIGURAR CORS CORRECTAMENTE =====
+CORS(app, 
+     origins=['https://horacontrol.onrender.com', 'http://localhost:5000', 'http://127.0.0.1:5000'],
+     methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+     allow_headers=['Content-Type', 'Authorization'],
+     supports_credentials=True)
 
 # Inicializar BD
 db.init_app(app)
@@ -73,6 +70,7 @@ def internal_error(error):
 # ===== CREAR TABLAS =====
 with app.app_context():
     db.create_all()
+    print("✅ Tablas de BD creadas/verificadas")
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
